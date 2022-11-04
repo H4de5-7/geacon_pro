@@ -43,7 +43,7 @@
 
 目前项目有部分控制台输出内容，若想删除可在代码中删除。
 
-**最简单的使用方法即为修改config.go中的公钥以及C2服务器地址，然后C2profile更换为下面的示例即可**
+**最简单的使用方法即为修改config.go中的公钥以及C2服务器地址（注意是listener地址，如果是http的listener的话需要将sslHTTP改为plainHTTP），然后C2profile更换为下面的示例即可**
 
 **C2profile示例已更新，C2profile适配的相关代码已更新，请师傅们重新下载一下，如果师傅们C2profile配置失败或者有更多需求的话请及时联系我**
 
