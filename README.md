@@ -1,56 +1,56 @@
 # geacon_pro
 
 
-## [中文说明在这里](https://github.com/H4de5-7/geacon_pro/README_zh.md)
+## [中文说明在这里](https://github.com/H4de5-7/geacon_pro/blob/master/README_zh.md)
 
 
 ## Introduction
-geacon_pro rebuilds CobaltStrike's Beacon based on [geacon](https://github.com/darkr4y/geacon) and can bypass antivirus software.
+geacon_pro is an Anti-Virus bypassing CobaltStrike Beacon written in Golang based on  [geacon](https://github.com/darkr4y/geacon) project. 
 
-geacon_pro supports 4.1+ CobaltStrike version.
+geacon_pro supports CobaltStrike version 4.1+
 
 geacon_pro has implemented most functions of Beacon.
 
-**We will continue to follow up the method of bypassing Anti-Virus and keep geacon_pro from being detected by Anti-Virus. We will also integrate the pen test tools which can bypass Anti-Virus. We hope that in the future, geacon_pro can be made into a cross-platform bypass Anti-Virus tool that is not limited to CobaltStrike native functions. If you have related needs or ideas, welcome to discuss together. your support and discussion is the driving force for us to move forward.**
+**We will continue to follow up the method of bypassing Anti-Virus and keep geacon_pro from being detected by Anti-Virus. We will also integrate the pen test tools which can bypass Anti-Virus. We hope that geacon_pro can be made into a cross-platform bypass Anti-Virus tool that is not limited to CobaltStrike native functions in the future. Discussions are welcome if you have relevant needs or ideas. your support and discussion is the driving force for us to move forward.**
 
-**Please do not use geacon_pro for any illegal purpose!**
+**This project is only for learning CobaltStrike protocol. Please do not use it for any illegal purpose, and the consequences arising therefrom shall be borne by yourself.**
 
-This project is developed by me and Z3ratu1. He has implemented a version of [geacon_plus](https://github.com/Z3ratu1/geacon_plus) that supports version 4.0. I have implemented a version of beacon that supports version 4.1 and above. And some functions are different.
+This project is developed by me and Z3ratu1. He has implemented a version of [geacon_plus](https://github.com/Z3ratu1/geacon_plus) that supports CobaltStrike version 4.0. geacon_pro supports version 4.1 and above. Functions of these two projects are almost same while encapsulation is slightly different.
 
-**The traditional method to bypass Anti-Virus is to load the shellcode of CobaltStrike Beacon through various loaders. However, some Anti-Virus check the memory characteristics of Beacon very strictly, especially Kaspersky, so it is better to rebuild one by yourself.**
+**Loading the shellcode of Beacon through various loaders is the traditional method to bypass Anti-Virus. However, some Anti-Virus check the memory characteristics of Beacon strictly, especially Kaspersky, so it is better to rebuild one by yourself.**
 
 The core of bypassing Anti-Virus can be reflected in three aspects:
 
 * There is no CobaltStrike Beacon feature.
-* Viruses written in golang can bypass the detection of antivirus software to a certain extent.
-* geacon_pro replaces some functions of CobaltStrike Beacon in implementation to bypass the detection of antivirus software.
+* Viruses written in Golang can bypass the detection of antivirus software to a certain extent.
+* Some dangerous functions which can be easily detected by antivirus software has been changed to more stealthy implementations.
 
-**The currently implemented functions can pass Defender, 360 core crystal (except powershell, you can use the tool I provide below), Kaspersky (except memory operations, such as injecting native CobaltStrike dll), Huorong. Other antivirus software has not been tested yet, please contact me if you have relevant requirements.**
+**The currently implemented functions can pass Defender, 360 core crystal (except powershell, you can use the tool I provide below), Kaspersky (except memory operations, such as injecting native CobaltStrike dll), and Huorong. Other antivirus software has not been tested yet, please contact me if you have relevant requirements.**
 
-In order to avoid 360's monitoring of the fork&&run operation, geacon_pro currently injects CobaltStrike native dll into itself to execute it. However, we found that the CobaltStrike native powerpick job sometimes fails to get the echo when it is injected into geacon_pro itself, which is normal in the fork&&run mode. Therefore, you can use execute-assembly to execute another [powershell-bypass tool](https://github.com/H4de5-7/powershell-bypass), which can bypass Defender, 360, etc.
+In order to avoid 360's monitoring of the fork&&run operation, geacon_pro currently injects CobaltStrike native dll into itself rather than into the temporary process. However, we found that the CobaltStrike native powerpick function sometimes fails to get the echo when it is injected into geacon_pro itself, while is works well in the fork&&run mode. Therefore, you can use `execute-assembly` to execute this [powershell-bypass tool](https://github.com/H4de5-7/powershell-bypass), which can bypass Defender, 360, etc.
 
-If you want to use bypassUAC avoid the detection of antivirus software, please using execute-assembly to execute the Csharp version of [this project](https://github.com/0xlane/BypassUAC/). Although the Csharp program cannot bypass the detection of 360, it can pass Defender and 360 using execute-assembly execution method. The dll version of this project can be bypass Anti-Virus, but it needs to be uploaded and executed with rundll32.
+If you want to make bypassUAC avoid the detection of antivirus software, please using `execute-assembly` to execute the Csharp version of [this project](https://github.com/0xlane/BypassUAC/). Although the Csharp program will be detected by 360 when it is on the disk, it can bypass Defender and 360 by executing in memory using `execute-assembly`. The dll version of this project can bypass Anti-Virus, but it needs to be uploaded and executed with rundll32.
 
-**Since geacon_pro has just been implemented, the current version may have some incomplete functions. If you have any needs, please contact me.**
+**geacon_pro is still in development, the current version may have some incomplete functions. Please contact me if you have any needs.**
 
 **If you have a good solution for heap memory encryption, welcome to discuss, my implementation ideas are in the implementation details.**
 
 ## How to use geacon_pro
 geacon_pro supports Windows, Linux and Mac.
 
-For the basic usage, please refer to the original project geacon. Adding -ldflags "-H windowsgui -s -w" when compiling exe can reduce the program size and cancel the cmd window. When compiling for linux and mac, adding -ldflags "-s -w" can reduce the size of the program, and then run it in the background.
+For the basic usage, please refer to the original project geacon. Adding `-ldflags "-H windowsgui -s -w"` when compiling binary can reduce the program size and hide the cmd window. When compiling for linux and mac, adding `-ldflags "-s -w"` can reduce the size of the program, and then run it in the background.
 
-The simple way to use geacon_pro is to modify the public key and C2 server address in config.go, and then replace the C2profile with the following example.
+The simplest way to use geacon_pro is to modify the public key and C2 server address in config.go, and then replace the C2profile with the following example.
 
-**At present, the project has some console output content, if you want to delete it, you can delete the related code.**
+**At present, the project has some console output content, you can delete the related code to remove it.**
 
-If your CobaltStrike's magic number changed from 48879 to other number before, it may cause the authentication to fail. If the authentication fails, you can try to change the 0xBEEF in meta.go to the value you changed.
+If your CobaltStrike's magic number changed from 48879 to other number before, it may cause the authentication to fail. In that case you can try to change the 0xBEEF in meta.go to the value you have changed.
 
 ## Functions
 
 ### Windows platform:
 
-sleep, shell, upload, download, exit, cd, pwd, file_browse, ps, kill, getuid, mkdir, rm, cp, mv, run, execute, drives, powershell-import, powershell, execute-assembly, Multiple thread injection methods (you can replace the source code yourself), shinject, dllinject, pipe, Various CobaltStrike native reflection dll injection (mimikatz, portscan, screenshot, keylogger, etc.), steal_token, rev2self, make_token, HTTP proxy, etc.
+sleep, shell, upload, download, exit, cd, pwd, file_browse, ps, kill, getuid, mkdir, rm, cp, mv, run, execute, drives, powershell-import, powershell, execute-assembly, Multiple thread injection methods (you can replace the source code yourself), shinject, dllinject, pipe, Various CobaltStrike native reflection dll injection (mimikatz, portscan, screenshot, keylogger, etc.), steal_token, rev2self, make_token, proxy, etc.
 
 ### Linux, Mac platform:
 
@@ -60,8 +60,8 @@ The process management and the file management support graphical interaction.
 
 ### C2profile:
 
-geacon_pro adapts the settings on the flow of C2profile and some settings on the host. The supported algorithms are base64, base64url, mask, netbios, netbiosu. Details can be found in config.go. Here is an example C2profile. **After modifying the C2profile, please do not forget to modify the corresponding location setting in config.go:**
-
+geacon_pro adapts the settings on the flow of C2profile and some settings on the host. The supported encoding algorithms are base64, base64url, mask, netbios, netbiosu. Details can be found in config.go. Here is an example C2profile.
+**IMPORTANT!!! After modifying the C2profile, do not forget to sync the changes in config.go:**
 ```bigquery
 # default sleep time is 60s
 set sleeptime "3000";
@@ -210,12 +210,10 @@ post-ex {
 #### services
 
 Implement the Cross-platform encapsulation of the functions in packet, which is convenient for main.go to use
-
 #### sysinfo
 
 * meta: The implementation of processing the meta information
 * sysinfo: The implementation of obtaining the information of related processes and systems under different platforms
-
 #### main.go
 
 The main function parses and executes each command, then returns results or errors
@@ -264,7 +262,7 @@ The part of the token currently implements steal_token, make_token and rev2self.
 
 ### the connection of server and hosts on the intranet
 
-Considering that there are often cases where the intranet hosts need to connect to C2 server. If the edge host connects internet while the intranet hosts does not connect the internet, geacon_pro can connect to server through the proxy of the edge host by setting the configuration in config.go. That is, if a http proxy is opened on port 8080 of the edge host, then setting ProxyOn to true in config.go and Proxy to ```http://ip:8080``` can make the hosts on the intranet connect to our C2 server.
+It is a common case that the intranet hosts need to connect to C2 server. If the edge host connects internet while the intranet hosts doesn't, geacon_pro can connect to server through the proxy of the edge host by setting the configuration in config.go. That is, if a http proxy is opened on port 8080 of the edge host, then setting ProxyOn to true in config.go and Proxy to ```http://ip:8080``` can make the hosts on the intranet connect to our C2 server.
 
 ### heap memory encryption
 
@@ -272,7 +270,7 @@ The implementation of heap memory encryption refers to [this project](https://gi
 
 ### charset
 
-Since Golang processes string as UTF-8 by default, we have unified the charset negotiated by the communication protocol, which are all UTF-8 on windows, linux, and mac, and then part of the result coded in GBK format is converted to UTF before sending back to the server, avoiding the problem of Chinese display errors.
+Since Golang processes string as UTF-8 by default, we decide to hardcode the communication charset between geacon_pro and CS server to UTF-8. Since Linux and macOS also use UTF-8 as default charset, we only need to convert the output of windows. Now we only convert GBK charset to UTF8, avoiding the problem of Chinese garbled.
 
 
 
