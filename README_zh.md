@@ -62,6 +62,8 @@ sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、
 
 若想再派生一个会话的话，不建议使用spawn，因为spawn派生的是原生cs的beacon，并且为了规避杀软对fork&&run的检测，目前spawn是注入了自身，建议直接用run或者execute执行geacon_pro.exe。
 
+目前dllinject有一些问题，正在修补中。
+
 ### linux和mac平台支持的功能：
 sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、getuid、mkdir、rm、cp、mv
 后续会添加linux与mac平台下后渗透功能
