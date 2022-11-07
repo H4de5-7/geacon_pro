@@ -60,7 +60,7 @@
 ### windows平台支持的功能：
 sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、getuid、mkdir、rm、cp、mv、run、execute、drives、powershell-import、powershell、execute-assembly（不落地执行c#）、多种线程注入的方法（可自己更换源码）、spawn、shinject、dllinject、管道的传输、多种cs原生反射型dll注入（mimikatz、portscan、screenshot、keylogger等）、令牌的窃取与还原、令牌的制作、代理发包等功能
 
-若想再派生一个会话的话，不建议使用spawn，因为spawn派生的是原生cs的beacon，建议直接用run或者execute执行geacon_pro.exe。
+若想再派生一个会话的话，不建议使用spawn，因为spawn派生的是原生cs的beacon，并且为了规避杀软对fork&&run的检测，目前spawn是注入了自身，建议直接用run或者execute执行geacon_pro.exe。
 
 ### linux和mac平台支持的功能：
 sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、getuid、mkdir、rm、cp、mv
