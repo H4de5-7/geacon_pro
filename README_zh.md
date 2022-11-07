@@ -239,6 +239,8 @@ execute-assembly的实现与cs原生的实现不太一样，cs的beacon从服务
 ### 进程注入
 进程注入shinject和dllinject采用的是APC注入。
 
+不过如果想执行自己的shellcode的话建议用shspawn，在当前实现中shspawn会注入geacon_pro本身，因此不会被杀软报远程线程注入。
+
 ### 反射型dll注入
 cs原生反射型dll注入的思路是先拉起来一个rundll32进程，之后把dll注进去执行，但是会被360核晶报远程线程注入。我尝试使用了native或者unhook等方法均失败，最后发现了将dll注入自己是不会被查杀的，因此考虑将cs的fork&run的方式改为注入自己的方式。
 由于cs是fork&&run的形式,因此部分dll在结束的时候要执行ExitProcess。
