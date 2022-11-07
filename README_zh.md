@@ -30,6 +30,10 @@
 
 若想使用免杀bypassUAC的话，请execute-assembly执行[该项目](https://github.com/0xlane/BypassUAC/)的Csharp版本，尽管Csharp程序不免杀，但是execute-assembly之后可过Defender与360。该项目dll版本自己编译一下是可以免杀的，但是需要落地并且需要用rundll32执行，因此并不推荐。
 
+若想用免杀捆绑器的话可以参考我的这个[小项目](https://github.com/H4de5-7/Bundler-bypass)
+
+若想用免杀计划任务的话可以参考我的这个[小项目](https://github.com/H4de5-7/schtask-bypass)以及一个师傅的这个[项目](https://github.com/0x727/SchTask_0x727)（不过这个项目需要用execute-assembly来内存执行。
+
 开发的过程中参考了鸡哥的数篇文章以及许许多多的项目，同时抓包对服务端返回的内容进行猜测，并对服务端java代码进行了部分的理解。
 
 由于本人对二进制方向接触的不多，希望师傅们多多包涵，欢迎师傅们交流，欢迎指出问题。
