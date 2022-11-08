@@ -3,12 +3,11 @@ module main
 go 1.19
 
 require (
+	github.com/Binject/debug v0.0.0-20211007083345-9605c99179ee
 	github.com/Microsoft/go-winio v0.6.0
 	github.com/Ne0nd0g/go-clr v1.0.2
-	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
 	github.com/imroc/req v0.3.2
 	github.com/shirou/gopsutil v3.21.11+incompatible
-	golang.org/x/net v0.0.0-20220722155237-a158d28d115b
 	golang.org/x/sys v0.1.0
 	golang.org/x/text v0.4.0
 )
