@@ -40,6 +40,25 @@
 
 **如果有师傅对堆内存加密有好的解决思路欢迎来讨论，我的实现思路在实现细节里面**
 
+## 更新的情况
+11.9更新：
+
+实现了反射型dll注入，将shinject和dllinject的注入方法改为remote，修改了rsa解密的bug，对x86进行了部分功能的适配，对cna进行了适配（即新支持反射型dll注入）。
+
+11.2更新：
+
+修正了中文乱码的问题。
+
+10.31更新
+
+新增了C2profile功能
+
+1、适配了metadata的header、parameter、uri-append形式，暂时不支持print，不过要注意**prepend与parameter同时存在的时候好像会解析不了**，请避免同时使用。
+
+2、适配了http-post的id的prepend、append以及parameter、header形式。
+
+3、适配了http-post的output的parameter、header、print形式，暂时不支持uri-append形式。
+
 ## 使用方法
 本项目支持windows、linux、mac平台的使用。
 
@@ -49,20 +68,18 @@
 
 **最简单的使用方法即为修改config.go中的公钥以及C2服务器地址（注意是listener地址，如果是http的listener的话需要将sslHTTP改为plainHTTP），然后C2profile更换为下面的示例即可**
 
-**C2profile示例已更新，C2profile适配的相关代码已更新，请师傅们重新下载一下，如果师傅们C2profile配置失败或者有更多需求的话请及时联系我**
-
 **部分cs二开版本由于修改了48879该特征，可能会认证失败，如果失败的话可以尝试将meta.go中的0xBEEF更改为jar包二开后的值。可参考鸡哥的这篇[文章](https://bbs.pediy.com/thread-267208.htm)来找jar包中二开后的值。**
-
-**已将shell更换为createprocess的实现**
 
 
 ## 实现功能
 ### windows平台支持的功能：
-sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、getuid、mkdir、rm、cp、mv、run、execute、drives、powershell-import、powershell、execute-assembly（不落地执行c#）、多种线程注入的方法（可自己更换源码）、spawn、shinject、dllinject、管道的传输、多种cs原生反射型dll注入（mimikatz、portscan、screenshot、keylogger等）、令牌的窃取与还原、令牌的制作、代理发包等功能
+sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、getuid、mkdir、rm、cp、mv、run、execute、drives、powershell-import、powershell、execute-assembly（不落地执行c#）、多种线程注入的方法（可自己更换源码）、spawn、shinject、dllinject（反射型dll注入）、管道的传输、多种cs原生反射型dll注入（mimikatz、portscan、screenshot、keylogger等）、令牌的窃取与还原、令牌的制作、代理发包等功能。支持cna自定义插件的reflectiveDll、execute-assembly、powershell、powerpick、upload and execute等功能。
+
+由于要规避杀软对fork&&run的检测，暂时令反射型dll注入注入到自身进程中，暂时拿不到回显，请师傅们注意，如果师傅们对如何从CreateThread中拿回显有想法请联系我。
+
+目前由于对其他进程进行反射型dll注入有一些问题，目前无论将反射型dll注入到哪个进程都默认为注入到自身进程，请师傅们注意。
 
 若想再派生一个会话的话，不建议使用spawn，因为spawn派生的是原生cs的beacon，并且为了规避杀软对fork&&run的检测，目前spawn是注入了自身，建议直接用run或者execute执行geacon_pro.exe。
-
-目前dllinject有一些问题，正在修补中。
 
 ### linux和mac平台支持的功能：
 sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、getuid、mkdir、rm、cp、mv
@@ -71,13 +88,6 @@ sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、
 进程管理部分、文件管理部分支持图形化交互
 
 ### C2profile：
-10.31新增功能：
-
-1、适配了metadata的header、parameter、uri-append形式，暂时不支持print，不过要注意**prepend与parameter同时存在的时候好像会解析不了**，请避免同时使用。
-
-2、适配了http-post的id的prepend、append以及parameter、header形式。
-
-3、适配了http-post的output的parameter、header、print形式，暂时不支持uri-append形式。
 
 适配了C2profile流量侧的设置与部分主机侧的设置，支持的算法有base64、base64url、mask、netbios、netbiosu、详情见config.go，这里给出示例C2profile，修改完C2profile后请不要忘记在config.go中对相应位置进行修改：
 ```
@@ -242,7 +252,9 @@ powershell命令直接调用了powershell，会被360监控，可以尝试用免
 execute-assembly的实现与cs原生的实现不太一样，cs的beacon从服务端接收的内容的主体部分是c#的程序以及开.net环境的dll。cs的beacon首先拉起来一个进程（默认是rundll32），之后把用来开环境的dll注入到该进程中，然后将c#的程序注入到该进程并执行。考虑到步骤过于繁琐，并且容易拿不到执行的结果，我这里直接用[该项目](https://github.com/timwhitez/Doge-CLRLoad)实现了execute-assembly的功能，但未对全版本windows进行测试。
 
 ### 进程注入
-进程注入shinject和dllinject采用的是APC注入。
+进程注入shinject和dllinject采用的是remote注入。
+
+**目前dllinject只支持注入自身的进程，shinject若注入到其他的进程的话要注意杀软对远程线程注入的检测。**
 
 不过如果想执行自己的shellcode的话建议用shspawn，在当前实现中shspawn会注入geacon_pro本身，因此不会被杀软报远程线程注入。
 
