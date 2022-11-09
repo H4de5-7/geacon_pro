@@ -45,6 +45,8 @@
 
 实现了反射型dll注入，将shinject和dllinject的注入方法改为remote，修改了rsa解密的bug，对x86进行了部分功能的适配，对cna进行了适配（即新支持反射型dll注入）。
 
+感谢timwhitez(该项目)[https://github.com/timwhitez/Doge-RL]的帮助！
+
 11.2更新：
 
 修正了中文乱码的问题。
