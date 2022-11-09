@@ -272,11 +272,6 @@ The implementation of heap memory encryption refers to [this project](https://gi
 
 Since Golang processes string as UTF-8 by default, we decide to hardcode the communication charset between geacon_pro and CS server to UTF-8. Since Linux and macOS also use UTF-8 as default charset, we only need to convert the output of windows. Now we only convert GBK charset to UTF8, avoiding the problem of Chinese garbled.
 
-## 404星链计划
-<img src lazysrc="https://github.com/knownsec/404StarLink-Project/raw/master/logo.png" width="30%">
-
-geacon_pro项目 现已加入 [404星链计划](https://github.com/knownsec/404StarLink)
-
 
 
 
