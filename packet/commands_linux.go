@@ -470,3 +470,15 @@ func KillProcess(pid uint32) ([]byte, error) {
 	}
 	return []byte("kill " + strconv.Itoa(int(pid)) + " success"), nil
 }
+
+func DllInjectSelf(params []byte, b []byte) ([]byte, error) {
+	return nil, errors.New("This function is not supported on this platform now.")
+}
+
+func DllInjectProcess(params []byte, b []byte) ([]byte, error) {
+	return nil, errors.New("This function is not supported on this platform now.")
+}
+
+func InjectProcessRemote(b []byte) ([]byte, error) {
+	return nil, errors.New("This function is not supported on this platform now.")
+}
