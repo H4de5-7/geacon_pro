@@ -1,6 +1,7 @@
 package crypt
 
 import (
+	"bytes"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
@@ -15,7 +16,8 @@ func RsaEncrypt(origData []byte) ([]byte, error) {
 	if block == nil {
 		return nil, errors.New("public key error")
 	}
-	pubInterface, err := x509.ParsePKIXPublicKey(block.Bytes)
+	blockBytes := bytes.Trim(block.Bytes, "\x00")
+	pubInterface, err := x509.ParsePKIXPublicKey(blockBytes)
 	if err != nil {
 		return nil, err
 	}

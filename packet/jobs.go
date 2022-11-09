@@ -272,6 +272,7 @@ func InjectSelf(shellcode []byte) ([]byte, error) {
 }
 
 func HandlerJob(b []byte) ([]byte, error) {
+
 	buf := bytes.NewBuffer(b)
 	_, err := util.ParseAnArg(buf)
 	if err != nil {
@@ -289,7 +290,9 @@ func HandlerJob(b []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	//pipeName := util.ParseAnArg(buf)
+	pipeName = bytes.Trim(pipeName, "\x00")
 	_, err = util.ParseAnArg(buf)
 	if err != nil {
 		return nil, err

