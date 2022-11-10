@@ -68,7 +68,7 @@
 
 目前项目有部分控制台输出内容，若想删除可在代码中删除。
 
-**最简单的使用方法即为修改config.go中的公钥（此公钥是cs的公钥，不是https的公钥）以及C2服务器地址（注意是listener地址，如果是http的listener的话需要将sslHTTP改为plainHTTP），然后C2profile更换为下面的示例即可**
+**最简单的使用方法即为修改config.go中的公钥（此公钥是cs的公钥，不是https的公钥，提取方法可参考[geacon](https://github.com/darkr4y/geacon)介绍）以及C2服务器地址（注意是listener地址，如果是http的listener的话需要将sslHTTP改为plainHTTP），然后C2profile更换为下面的示例即可**
 
 **理论上来说可以支持域前置，因为只是模拟了cs的发包的协议，不过我没有测试，把C2地址更改为域前置回连的域名和端口即可，如果有师傅测试了方便的话麻烦联系我或者提交issue**
 
