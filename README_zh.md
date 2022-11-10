@@ -41,6 +41,10 @@
 **如果有师傅对堆内存加密有好的解决思路欢迎来讨论，我的实现思路在实现细节里面**
 
 ## 更新的情况
+11.10更新：
+
+实现了exit时自删除的功能，可通过设置config.go中的DeleteSelf来设置，默认为false。
+
 11.9更新：
 
 实现了dllinject、cna等用户自定义反射型dll注入，将shinject和dllinject的注入方法改为remote，修改了rsa解密的bug，对x86进行了部分功能的适配，对cna进行了适配（即新支持反射型dll注入）。
@@ -77,7 +81,7 @@
 
 ## 实现功能
 ### windows平台支持的功能：
-sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、getuid、mkdir、rm、cp、mv、run、execute、drives、powershell-import、powershell、execute-assembly（不落地执行c#）、多种线程注入的方法（可自己更换源码）、spawn、shinject、dllinject（反射型dll注入）、管道的传输、多种cs原生反射型dll注入（mimikatz、portscan、screenshot、keylogger等）、令牌的窃取与还原、令牌的制作、代理发包等功能。支持cna自定义插件的reflectiveDll、execute-assembly、powershell、powerpick、upload and execute等功能。
+sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、getuid、mkdir、rm、cp、mv、run、execute、drives、powershell-import、powershell、execute-assembly（不落地执行c#）、多种线程注入的方法（可自己更换源码）、spawn、shinject、dllinject（反射型dll注入）、管道的传输、多种cs原生反射型dll注入（mimikatz、portscan、screenshot、keylogger等）、令牌的窃取与还原、令牌的制作、代理发包、自删除等功能。支持cna自定义插件的reflectiveDll、execute-assembly、powershell、powerpick、upload and execute等功能。
 
 由于要规避杀软对fork&&run的检测，暂时令反射型dll注入注入到自身进程中，暂时拿不到回显，请师傅们注意，如果师傅们对如何从CreateThread中拿回显有想法请联系我。
 
@@ -86,7 +90,7 @@ sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、
 若想再派生一个会话的话，不建议使用spawn，因为spawn派生的是原生cs的beacon，并且为了规避杀软对fork&&run的检测，目前spawn是注入了自身，建议直接用run或者execute执行geacon_pro.exe。
 
 ### linux和mac平台支持的功能：
-sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、getuid、mkdir、rm、cp、mv
+sleep、shell、upload、download、exit、cd、pwd、file_browse、ps、kill、getuid、mkdir、rm、cp、mv、自删除
 后续会添加linux与mac平台下后渗透功能
 
 进程管理部分、文件管理部分支持图形化交互
