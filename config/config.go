@@ -40,7 +40,7 @@ var (
 	WaitTime = 3000 * time.Millisecond
 
 	HttpHeaders = req.Header{
-		"Host":         "zeusxx.xyz",
+		"Host":         "aliyun.com",
 		"User-Agent":   "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0; BOIE9;ENUS)",
 		"Server":       "nginx",
 		"Accept":       "*/*",
