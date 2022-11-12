@@ -72,6 +72,9 @@ func main() {
 							case packet.CMD_TYPE_SLEEP:
 								result, err = services.CmdSleep(cmdBuf)
 								callbackType = 0
+							case packet.CMD_TYPE_PAUSE:
+								result, err = services.CmdPause(cmdBuf)
+								callbackType = 0
 							case packet.CMD_TYPE_PWD:
 								result, err = services.CmdPwd()
 								callbackType = 0

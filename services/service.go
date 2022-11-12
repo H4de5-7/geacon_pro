@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"io"
 	"main/config"
 	"main/crypt"
@@ -102,6 +103,12 @@ func CmdSleep(cmdBuf []byte) ([]byte, error) {
 		return []byte("Sleep time changes to " + strconv.Itoa(int(sleep)/1000) + " seconds"), nil
 	}
 	return nil, nil
+}
+
+func CmdPause(cmdbuf []byte) ([]byte, error) {
+	pause := packet.ReadInt(cmdbuf)
+	time.Sleep(time.Duration(pause) * time.Millisecond)
+	return []byte(fmt.Sprintf("Pause for %d millisecond", pause)), nil
 }
 
 func CmdPwd() ([]byte, error) {

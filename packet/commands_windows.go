@@ -59,6 +59,7 @@ const (
 
 const (
 	CMD_TYPE_SLEEP        = 4
+	CMD_TYPE_PAUSE        = 47
 	CMD_TYPE_SHELL        = 78
 	CMD_TYPE_UPLOAD_START = 10
 	CMD_TYPE_UPLOAD_LOOP  = 67

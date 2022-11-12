@@ -50,18 +50,17 @@ func GetMetaDataFlag() int {
 	if IsHighPriv() {
 		flagInt += 8
 	}
-	IsOSX64, _ := IsOSX64()
-	if IsOSX64 {
+	isOSX64, _ := IsOSX64()
+	if isOSX64 {
 		flagInt += 4
 	}
-	IsProcessX64, _ := IsProcessX64()
-	if IsProcessX64 {
+	isProcessX64 := IsProcessX64()
+	// there is no need to add 1 one process is x86
+	// doing this only makes error happen
+	if isProcessX64 {
 		flagInt += 2
-	} else {
-		flagInt += 1
 	}
 	return flagInt
-	//return 2
 }
 
 func GetComputerName() string {
